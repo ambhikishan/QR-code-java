@@ -36,7 +36,7 @@ public class Qrcode {
         JButton save = new JButton("Save QR");
         save.setVisible(true);
         window.add(save);
-        save.setBounds(150,150,100,40);
+        save.setBounds(280,150,100,40);
         ActionListener actionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,22 +57,15 @@ public class Qrcode {
 
 
         };
-        save.addActionListener(actionListener);
+
         JLabel label = new JLabel("");
+        label.setBounds(200,200,100,100);
+        label.setVisible(true);
+        window.add(label);
         KeyListener action = new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
 
-
-                try {
-                    String st = textbox.getText();
-                    BufferedImage image = generateQRCodeImage(st);
-                    ImageIO.write(image,"jpeg",new File("hello.png"));
-
-
-                } catch (Exception ex) {
-                    System.out.println("sorry");
-                }
             }
 
             @Override
@@ -83,10 +76,21 @@ public class Qrcode {
             @Override
             public void keyReleased(KeyEvent e) {
 
+                String st = textbox.getText();
+                BufferedImage image = null;
+                try {
+                    image = generateQRCodeImage(st);
+                } catch (Exception ex) {
+                    System.out.println("error");
+                }
+                label.setIcon(new ImageIcon(image));
+
+
             }
+            
         };
         textbox.addKeyListener(action);
-
+        save.addActionListener(actionListener);
 
 
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
